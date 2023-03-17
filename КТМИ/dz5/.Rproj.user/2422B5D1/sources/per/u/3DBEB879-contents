@@ -1,0 +1,40 @@
+library(outliers)
+library(EnvStats)
+library(car)
+library(MASS)
+library(leaps)
+library(bootstrap)
+library(glmnet)
+library(dplyr)
+library(psych)
+library(caret)
+count_variable = 5
+count_realization = 20
+
+date<-matrix(runif(count_realization*count_variable, -100, 100),count_realization, count_variable)
+print("Матрица данных:")
+
+Y <- date[,1]
+X <- date[,-1]
+
+lambdas_to_try <- 10^seq(-3, 5, length.out = 100)
+ridge_cv <- cv.glmnet(X, Y, alpha = 0, lambda = lambdas_to_try,
+                      standardize = TRUE, nfolds = 10)
+
+#Plot cross-validation results
+plot(ridge_cv)
+
+# Best cross-validated lambda
+lambda_cv <- ridge_cv$lambda.min
+# Fit final model, get its sum of squared residuals and multiple R-squared
+model_cv <- glmnet(X, Y, alpha = 0, lambda = lambda_cv, standardize = TRUE)
+y_hat_cv <- predict(model_cv, X)
+ssr_cv <- t(Y - y_hat_cv) %*% (Y - y_hat_cv)
+rsq_lasso_cv <- cor(Y, y_hat_cv)^2
+
+
+# See how increasing lambda shrinks the coefficients --------------------------
+# Each line shows coefficients for one variables, for different lambdas.
+# The higher the lambda, the more the coefficients are shrinked towards zero.
+res <- glmnet(X, Y, alpha = 0, lambda = lambdas_to_try, standardize = FALSE)
+plot(res, xvar = "lambda")

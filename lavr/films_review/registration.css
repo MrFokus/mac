@@ -1,0 +1,74 @@
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: url(img/image_20.png);
+    background-size: 280vh;
+    background-attachment: fixed;
+    background-position-y:40% ;
+    background-position-x:60% ;
+    height: 100vh;
+}
+@font-face {
+    font-family: 'Proxima Nova';
+    src:url(fonts/ProximaNova-Regular.ttf) format('truetype'),
+    url(fonts/proximanova_black.ttf) format('truetype'), 
+    url(fonts/proximanova_regular.ttf) format('truetype'),
+    url(fonts/proximanova_bold.otf) format("opentype"),
+    url(fonts/proximanova_black.otf) format("opentype"),
+    url(fonts/proximanova_blackit.otf) format("opentype"),
+    url(fonts/proximanova_boldit.otf) format("opentype"),
+    url(fonts/proximanova_extrabold.otf) format("opentype")
+    url(fonts/ProximaNova-Bold.ttf) format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+.flex{ 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.registration,.input-contanier{
+    flex-direction: column;
+}
+.registration{
+    width: 61.25vw;
+    background: rgba(55, 55, 55, 0.9);
+    border-radius: 30px;
+}
+input{
+    all: unset;
+    width: 29.44vw;
+    height: 1.527vw;
+    padding: 0.833vw;
+    line-height: 1.527vw;
+    color: #E0E0E0;
+    font-family: 'Proxima Nova';
+    font-weight: 800;
+    background-color: #747474;
+    border-radius: 40px;
+    margin-bottom: 2.7vw;
+}
+button{
+    font-size: 1.38vw;
+    background: linear-gradient(269.54deg, #0038FF 32.51%, #75E6FF 81.49%);
+    border-radius: 4vw;
+    height: 3.33vw;
+    width:18.3vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #E0E0E0;
+    border: none;
+}
+h1{
+    font-family: 'Proxima Nova';
+    font-weight: 800;
+    font-size: 4.44vw;
+    background:linear-gradient(269.54deg, #00A3FF 20.03%, #75E6FF 81.49%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+

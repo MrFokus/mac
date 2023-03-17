@@ -1,0 +1,69 @@
+#include <iostream>
+
+using namespace std;
+void isNumeric(){
+	while (!std::cin.good())
+		{
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			throw std::invalid_argument( "received negative value" );
+		}
+}
+void Task_8(){
+	try{
+		srand(time(0));
+		int arr[10][2];
+		int f,s,counter=0,value,flag=0;
+		for(int i=0;i<10;i++){
+			f=rand()%9+1;
+			s=rand()%9+1;
+			for(int j=0;j<i;j++){
+				if((arr[j][0]==f)&&(arr[j][1]==s)||(arr[j][0]==s)&&(arr[j][1]==f)){
+					i--;
+					flag=1;
+					break;
+				}
+			}
+			if(flag==1){
+				flag=0;
+				continue;
+			}
+			else{
+				arr[i][0]=f;
+				arr[i][1]=s;
+			}
+			
+			
+			cout<<f<<'x'<<s<<'=';
+			cin>>value;
+			isNumeric();
+			if(value==f*s){
+				counter++;
+			}
+			else{
+				cout<<"Вы ошиблись! "<<f<<'x'<<s<<'='<<f*s<<endl;
+			}
+		}
+		cout<<"Правильных ответов: "<<counter<<endl;
+		if(counter==10){
+			cout<<"Ваша оценка - отлично";
+		}
+		if((counter==9)||(counter==8)){
+			cout<<"Ваша оценка - хорошо";
+		}
+		if((counter==7)||(counter==6)){
+			cout<<"Ваша оценка - удовлетворительно";
+		}
+		if(counter<6){
+			cout<<"Ваша оценка - плохо";
+		}
+	}
+	catch(exception e){
+		cout<<"Проверьте правильность введённых данных (Вводить нужно цифры)"<<endl;
+		Task_8();
+	}
+}
+
+int main(int argc, char *argv[]) {
+	Task_8();
+}

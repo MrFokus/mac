@@ -1,0 +1,100 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+header{
+    background: linear-gradient(180deg, #E2F1DA 0%, #D4FBF7 100%);
+    width: 100%;
+    overflow: auto;
+    
+    
+}
+.container{
+    margin: 48px 165px 85px 165px;
+    display: flex;
+}
+.family{
+    margin-left: 80px
+}
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500&display=swap');
+h1{
+    font-family: 'Raleway', sans-serif;
+margin: auto;
+font-weight: 600;
+font-size: 70px;
+margin-right: 79px ;
+color: #6A6B70;
+}
+main>.container>h1{
+    font-size: 45px;
+    margin: 0;
+    margin-top: 80px;
+    margin-bottom: 46px;
+}
+main>.container{
+    display: block;
+}
+.select-life-situations{
+    display: flex;
+}
+.block{
+    width: 350px;
+}
+.description{
+    background-color: #F0F6F4;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    overflow: auto;
+    border-bottom-right-radius: 10px;
+    padding-bottom: 35px;
+}
+.description>h1{
+    font-size: 26px;
+    font-weight: 500;
+    margin: 25px;
+}
+.description>a{
+    margin: 5px 25px auto 25px;
+    text-decoration: none;
+    font-family: 'Raleway', sans-serif;
+    color: #4F6ACC;
+}
+.img{
+    background-color: #DBF3EB;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+
+}
+.img>img{
+    margin: 34px auto 34px auto;
+}
+.block:nth-child(2){
+    margin-right: 30px;
+    margin-left: 30px;
+}
+.container>p{
+    font-family: 'Raleway', sans-serif;
+    color: #6A6B70;
+    font-size: 25px;
+    width: 100%;
+    text-align: center;
+    margin-top: 165px;
+    margin-bottom: 40px;
+}
+footer{
+    background: linear-gradient(180deg, #E2F1DA 0%, #D4FBF7 100%);
+    overflow: auto;
+}
+footer>p{
+    color: #6A6B70;
+    font-family: 'Raleway', sans-serif; 
+    font-size: 18px;
+    font-weight: 500;
+    width: 100%;
+    text-align: center;
+    margin-top: 48px;
+    margin-bottom: 48px;
+}

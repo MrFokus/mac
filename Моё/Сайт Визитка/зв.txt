@@ -1,0 +1,124 @@
+ mov	     ax,3 
+int	     10h
+call far ptr getnum 
+mov	     ax,dat 
+mov	     ds,ax
+mov	     ax,ds:[dst]
+push    0
+push    0
+call far ptr printnum
+mov     ax,4c00h
+int     21h
+code    ends
+code1   segment word 'CODE'
+assume  cs:code1
+getnum  proc far
+push    ds 
+push    es
+push    ax bx cx dx di si
+mov	     ax,dat 
+mov	     ds,ax
+mov	     ax,0b800h
+mov	     es,ax 
+xor     di,di 
+mov     ax,0720h 
+mov     cx,80*25
+rep	     stosw 
+xor	     di,di 
+mov	     word ptr ds:[dst],0 
+mov	     bx,10 
+in		     al,60h 
+mov	     ds:[chr],al 
+mov	     cx,4
+get_char:
+ in	al,60h 
+cmp	al,ds:[chr] 
+jz	get_char 
+mov	     ds:[chr],al
+cmp	     al,1
+jz		     exit_prg
+cmp	     al,1Ch
+jz		     exit_prg
+cmp	     al,0Bh
+jbe	     scan_to_num
+test    al,80h 
+jnz	     get_char
+call far ptr beep
+jmp	     get_char
+scan_to_num:
+cmp	     al,bl
+cmp	     al,bl 
+jnz	     not_zero
+xor	     al,al 
+not_zero:
+ xor	     ah,ah 
+ mov	     si,ax 
+xor	     dx,dx 
+mov	     ax,ds:[dst]
+mov	     bx, 0b 
+xor	     bx,ax
+shr	     ax, 1 
+mov	     ds:[dst],ax; 
+add	     al,'0'
+stosb;			     
+loop    get_char
+exit_prg:
+pop	     si	di dx cx bx ax;
+pop	     es
+ pop	     ds
+retf			     
+endp				     
+printnum  proc far
+push    bp	
+mov	     bp,sp
+push         ds 
+push    ax bx cx dx si di
+mov	     bx,ax
+mov	     ax,ss:[bp+6]
+mov          cx,80   
+mul	     cx; 
+add	     ax,ss:[bp+8] 
+add	     ax,ax 
+mov	     di,ax
+mov	     ax,0b800h 
+mov	     es,ax
+mov	     cx,4 
+mov	     ah,7 
+printnum_c:
+mov	     al,bh 
+shr	     al,4  
+add	     al,'0' 
+stosw 
+shl	     bx,4
+loop    printnum_c
+ pop	     di si dx cx bx ax
+pop	     ds
+pop	     bp
+retf    4
+endp
+beep    proc far
+push         ax cx dx 
+mov	     al,0b6h
+out	     43h,al
+mov	     ax,23A1h
+out	     42h,al
+mov	     al,ah
+out	     42h,al
+in	     al,61h
+or	     al,3
+out	     61h,al 
+mov	     cx,-1
+beep_wait:
+loop    beep_wait
+in	     al,61h
+and     al,0fch 
+ out	     61h,al 
+ pop	     dx cx ax
+retf
+endp
+code1   ends
+dat	     segment word 'data'
+dst     dw 0 
+chr	db 0
+dat	     ends
+end     start

@@ -1,0 +1,185 @@
+#include <iostream>
+#include <math.h>
+using namespace std;
+
+void task1() {
+	double y, x;
+	cout << "Введите x" << endl;
+	cin >> x;
+	y = -2.7 * x * x * x + 0.23 * x * x - 1.4;
+	cout << "y=" << y << endl;
+}
+void task2(){
+	double a;
+	double b;
+	cout<<"Величина первого сопротивления (Ом)"<<endl;
+	cin >>a;
+	cout<<"Величина второго сопротивления (Ом)"<<endl;
+	cin >>b;
+	double sum = a + b;
+	cout<<"Сопротивление цепи (последовательное соединение): "<<sum<<endl;
+}
+///Task 3
+void list() {
+	cout << "[1]-ввод данных" << endl;
+	cout << "[2]-обработка данных" << endl;
+	cout << "[3]-вывод данных" << endl;
+	cout << "[4]-выход из программы" << endl;
+}
+char* input(char arr[]) { //ввод данных
+	cout << "Введите данные" << endl; 
+	cin.get();
+	cin.getline(arr,1024);
+		return arr;
+}
+int processing(char arr[]) { //обработка данных
+	int tmp1=0, i=0, j=0; //tmp1-самое длинное слово
+	while (true) {
+		if (arr[i] == '\0') {
+			if (j > tmp1) {
+				tmp1 = j;
+				j = 0;
+			}
+			else {
+				j = 0;
+			}
+			break;
+		}
+		else if (arr[i] == ' ') {
+			i++;
+			if (j > tmp1) {
+				tmp1 = j;
+				j = 0;
+			}
+			else {
+				j = 0;
+			}
+		}
+		else {
+			i++;
+			j++;
+		}
+	}
+	return tmp1;
+}
+void output(int result) {  //вывод данных
+	cout << "Наибольшее кол-во подряд идущих букв = " << result << endl;
+}
+
+void task3() {
+	char text[1024];
+	bool flag=0, work=1, flag2=0;
+	int a, amount=0;
+	while (work == 1) {
+		list();
+		cin >> a;
+		switch (a) {
+			case 1: 
+				input(text);
+				flag = 1;
+				break;
+			case 2:
+				if (flag == 0) {
+					cout << "Ошибка! Вы ещё не ввели данные" << endl;
+				}
+				else {
+					amount=processing(text);
+					flag2 = 1;
+				}
+				break;
+			case 3:
+				if (flag == 0) {
+					cout << "Ошибка! Вы ещё не ввели данные" << endl;
+				}
+				else {
+					if (flag2 == 0) {
+						cout << "Ошибка!Данные ещё не обработаны" << endl;
+					}
+					else {
+						output(amount);
+					}
+				}
+				break;
+			case 4:
+				flag = 0;
+				flag2 = 0;
+				work = 0;
+				break;
+			default:
+				cout << "Error" << endl;
+				break;
+		}
+	}
+}
+///////
+
+void task4(){
+	double r;
+	double h;
+	cout<<"Радиус цилиндра (R)"<<endl;
+	cin >>r;
+	cout<<"Высота цилиндра (H)"<<endl;
+	cin >>h;
+	double V = 3.14*r*r*h;
+	cout<<"Объём цилиндра равен"<<V<<endl;
+}
+/////////Task 5
+double f(double x, double y) {
+	double hypotenuse; //гипотенуза
+	hypotenuse = x * x + y * y;
+	hypotenuse = sqrt(hypotenuse);
+	return hypotenuse;
+}
+void task5() {
+	int x, y;
+	double hypotenuse1;
+	srand(time(0));
+	x = rand()%100;
+	y = rand()%100;
+	hypotenuse1=f(x, y);
+	cout << "Гипотенуза =" << hypotenuse1 << endl;
+}
+/////////// Task 6
+double f(double x1, double x2, double y1, double y2){
+	double range=sqrt(pow((x2-x1),2)+pow((y2-y1),2));
+	return range;
+}
+void task6(){
+	double x1, x2, y1, y2,result;
+	cout<<"Ведите координаты первой точки через Enter"<<endl;
+	cin>>x1>>y1;
+	cout<<"Ведите координаты второй точки через Enter"<<endl;
+	cin>>x2>>y2;
+	result=f(x1, x2, y1, y2);
+	cout<<"Расстояние равно "<<result;
+
+}
+int main(int argc, char *argv[]) {
+	setlocale(LC_ALL, "rus");
+	for(;;){
+		int task;
+		cout<<"Выберите задачу от 1 до 6"<<endl;
+		cin>>task;
+		switch (task) {
+			case 1:
+				task1();
+				break;
+			case 2:
+				task2();
+				break;
+			case 3:
+				task3();
+				break;
+			case 4:
+				task4();
+				break;
+			case 5:
+				task5();
+				break;
+			case 6:
+				task6();
+				break;
+		}
+		
+	}
+}

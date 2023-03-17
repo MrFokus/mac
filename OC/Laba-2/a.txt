@@ -1,0 +1,11 @@
+a.txt
+laba-2.cpp
+laba2.cpp
+proc1
+proc1.cpp
+proc1.txt
+proc2
+proc2.cpp
+proc2.txt
+proc3
+proc3.cpp

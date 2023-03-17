@@ -1,0 +1,71 @@
+library(outliers)
+library(EnvStats)
+library(car)
+library(MASS)
+library(leaps)
+library(bootstrap)
+library(glmnet)
+library(dplyr)
+library(psych)
+library(caret)
+count_variable = 10
+count_realization = 1000
+
+data<-matrix(runif(count_realization*count_variable, -100, 100),count_realization, count_variable)
+print("Матрица данных:")
+
+y <- data[,1]
+X <- data[,-1]
+
+# Perform 10-fold cross-validation to select lambda ---------------------------
+lambdas_to_try <- 10^seq(-3, 5, length.out = 100)
+# Setting alpha = 1 implements lasso regression
+lasso_cv <- cv.glmnet(X, y, alpha = 1, lambda = lambdas_to_try,
+                      standardize = TRUE, nfolds = 10)
+# Plot cross-validation results
+plot(lasso_cv)
+# Best cross-validated lambda
+lambda_cv <- lasso_cv$lambda.min
+# Fit final model, get its sum of squared residuals and multiple R-squared
+model_cv <- glmnet(X, y, alpha = 1, lambda = lambda_cv, standardize = TRUE)
+y_hat_cv <- predict(model_cv, X)
+ssr_cv <- t(y - y_hat_cv) %*% (y - y_hat_cv)
+rsq_lasso_cv <- cor(y, y_hat_cv)^2
+
+
+# See how increasing lambda shrinks the coefficients --------------------------
+# Each line shows coefficients for one variables, for different lambdas.
+# The higher the lambda, the more the coefficients are shrinked towards zero.
+res <- glmnet(X, y, alpha = 1, lambda = lambdas_to_try, standardize = FALSE)
+plot(res, xvar = "lambda")
+
+shrinkage <- function(fit,k=10){
+  require(bootstrap)
+  # define functions 
+  theta.fit <- function(x,y){lsfit(x,y)}
+  theta.predict <- function(fit,x){cbind(1,x)%*%fit$coef} 
+  
+  # matrix of predictors
+  x <- fit$model[,2:ncol(fit$model)]
+  # vector of predicted values
+  y <- fit$model[,1]
+  
+  results <- crossval(x,y,theta.fit,theta.predict,ngroup=k)
+  r2 <- cor(y, fit$fitted.values)**2 # raw R2 
+  r2cv <- cor(y,results$cv.fit)**2 # cross-validated R2
+  cat("Original R-square =", r2, "\n")
+  cat(k, "Fold Cross-Validated R-square =", r2cv, "\n")
+  cat("Change =", r2-r2cv, "\n")
+}
+dataF <- as.data.frame(data)
+colnames(dataF)[1]  <- 'COL1'
+linear_model <- lm(COL1 ~., dataF)
+shrinkage(linear_model)
+
+library(factoextra)
+res.pca <- prcomp(data, scale = TRUE)
+# fviz_pca_biplot(res.pca, repel = TRUE,
+#                 col.var = "#2E9FDF", # Variables color
+#                 col.ind = "#696969"  # Individuals color
+# )
+print(res.pca)
